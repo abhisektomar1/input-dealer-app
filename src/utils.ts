@@ -1,0 +1,1 @@
+export const BASE_URL_APP = 'https://api.agrisarathi.com/api'
