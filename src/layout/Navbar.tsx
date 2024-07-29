@@ -104,12 +104,12 @@ const Home = [
     srcs: "/layout/product.svg",
     url: "/dashboard/ProductList",
   },
-  {
-    name: "Add Farmer",
-    imgsize: "",
-    srcs: "/images/farmer.svg",
-    url: "/dashboard/farmer",
-  },
+  // {
+  //   name: "Add Farmer",
+  //   imgsize: "",
+  //   srcs: "/images/farmer.svg",
+  //   url: "/dashboard/farmer",
+  // },
   {
     name: "Purchase Details",
     imgsize: "",
@@ -122,12 +122,12 @@ const Home = [
   //   srcs: "/layout/purchase.svg",
   //   url: "/dashboard/PurchaseList",
   // },
-  {
-    name: "Customer Details",
-    imgsize: "",
-    srcs: "/layout/customer.svg",
-    url: "/dashboard/CustomerList",
-  },
+  // {
+  //   name: "Customer Details",
+  //   imgsize: "",
+  //   srcs: "/layout/customer.svg",
+  //   url: "/dashboard/CustomerList",
+  // },
   // {
   //   name: "Comminity Forum",
   //   imgsize: "",
@@ -135,12 +135,12 @@ const Home = [
   //   url: "/dashboard/governmentSchemes",
   // },
   
-  {
-    name: "Govt. Schemes",
-    imgsize: "",
-    srcs: "/layout/govt.svg",
-    url: "/dashboard/governmentSchemes",
-  },
+  // {
+  //   name: "Govt. Schemes",
+  //   imgsize: "",
+  //   srcs: "/layout/govt.svg",
+  //   url: "/dashboard/governmentSchemes",
+  // },
   
 ];
 

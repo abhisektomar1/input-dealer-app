@@ -22,7 +22,6 @@ import axiosInstance from "../../../service/AxiosInstance";
 function InventoryList() {
   const navigate = useNavigate();
   const [data, setData] = useState<any>([]);
-  const [filter, setFilter] = useState<string>("Agricultural Inputs");
   const [selectedRow, setSelectedRow] = useState<any>();
   const [open, setOpen] = React.useState<boolean>(false);
   const [stock, setStock] = useState();
@@ -37,8 +36,7 @@ function InventoryList() {
   };
   useEffect(() => {
     axiosInstance
-      .post(`/ShowInventory`, {
-        filter_type: filter,
+      .post(`/ShowInventorySupplier`, {
       })
       .then((res: any) => {
         if (res.status === 200) {
@@ -51,7 +49,7 @@ function InventoryList() {
         console.log(error);
         toast.error(error?.response?.data?.error || "Something went wrong!");
       });
-  }, [filter]);
+  }, []);
 
   const tableProps = {
     enableColumnFilterModes: true,
@@ -128,8 +126,8 @@ function InventoryList() {
     console.log(data);
 
     try {
-      const res = await axiosInstance.post(
-        `${BASE_URL_APP}/UpdateInventorybyFPO`,
+      axiosInstance.post(
+        `${BASE_URL_APP}/UpdateInventorybySupplier`,
         {
           inventory_id: selectedRow?.inventory_id,
           new_stock: stock,
@@ -150,21 +148,6 @@ function InventoryList() {
         <div className="flex flex-row justify-between">
           <h1 className="p-3 text-xl font-bold">Inventory List</h1>
         </div>
-        <Tabs defaultValue="account">
-          <TabsList>
-            <TabsTrigger
-              onClick={() => setFilter("Agricultural Inputs")}
-              value="account"
-            >
-              Agricultural Inputs
-            </TabsTrigger>
-            <TabsTrigger onClick={() => setFilter("Crops")} value="password">
-              Crops
-            </TabsTrigger>
-            <TabsTrigger onClick={() => setFilter("Finish Goods")} value="regt">
-              Finished Product
-            </TabsTrigger>
-          </TabsList>
           <div className="tableDatadiv px-3 py-2">
             <Table
               {...tableProps}
@@ -174,7 +157,6 @@ function InventoryList() {
               editClick={editClick}
             ></Table>
           </div>
-        </Tabs>
         <Dialog
           open={open}
           onClose={handleClose}

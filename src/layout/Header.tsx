@@ -194,10 +194,10 @@ function Header() {
             </div>
           )}
         </div>
-        <div className="flex items-center space-x-2 rounded-full border border-gray-400 p-2">
+        {/* <div className="flex items-center space-x-2 rounded-full border border-gray-400 p-2">
           <img src="/images/coin.svg" alt="Coins" className="h-5 w-6" />
           <span>300</span>
-        </div>
+        </div> */}
         <Button variant="link" size="icon">
           <img src="/images/bell.svg" alt="Notifications" className="h-5 w-5" />
         </Button>

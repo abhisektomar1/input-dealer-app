@@ -13,7 +13,7 @@ axiosInstance.interceptors.request.use((config) => {
   // Add userid to the request data
   config.data = {
     ...config.data,
-    userid: token,
+    supplier_id: token,
   };
   
   return config;

@@ -32,13 +32,11 @@ import { BASE_URL_APP } from "../../utils";
 function Dashboard() {
   const [data, setData] = useState<any>([]);
   const [data2, setData2] = useState<any>([]);
-  const [data3, setData3] = useState<any>([]);
   const [data4, setData4] = useState<any>([]);
   const [data5, setData5] = useState<any>([]);
 
   const [filter, setFilter] = useState<string>("Online");
   const [filter2, setFilter2] = useState<string>("Online");
-  const [filter3, setFilter3] = useState<string>("all");
   const [filter4, setFilter4] = useState<string>("Agricultural Inputs");
   const [filter5, setFilter5] = useState<string>("Online");
 
@@ -80,23 +78,6 @@ function Dashboard() {
       });
   }, [filter2]);
 
-  useEffect(() => {
-    axiosInstance
-      .post(`/CheckBuyerisFarmerorNot`, {
-        filter_type: filter3,
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          setData3(res.data);
-        } else {
-          toast.error("Something went wrong!");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error(error.message);
-      });
-  }, [filter3]);
 
   useEffect(() => {
     axiosInstance
@@ -184,45 +165,6 @@ function Dashboard() {
 
   const chartData = processApiData(data4);
 
-  const [dataa, setDataa] = useState<any>([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const navigae = useNavigate();
-  const lan = useAppSelector((state) => state.lan.lan);
-
-  useEffect(() => {
-    axios
-      .post(`${BASE_URL_APP}/GetallGovtSchemes`, {
-        user_language: lan,
-      })
-      .then((r) => {
-        console.log(r);
-        if (r.data.status === "success") {
-          setDataa(r.data.schemes);
-        } else {
-          toast.error("Something went wrong");
-        }
-      })
-      .catch((r) => {
-        console.log(r);
-        toast.error(r.message);
-      });
-  }, [lan]);
-
-  const handleSearchChange = (event: any) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const filteredData = dataa.filter((item: any) =>
-    item.scheme_name.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
-
-  const truncateText = (text: any, wordLimit: any) => {
-    const words = text.split(" ");
-    if (words.length > wordLimit) {
-      return words.slice(0, wordLimit).join(" ") + "...";
-    }
-    return text;
-  };
 
   return (
     <Layout>
@@ -459,120 +401,9 @@ function Dashboard() {
                 </CardFooter>
               </Card>
             </div>
-            <Card>
-              <CardHeader className="flex justify-between">
-                <div>
-                  <CardTitle>Total Farmers</CardTitle>
-                  <CardDescription className="text-green-500">
-                    <Tabs defaultValue="account" className="my-2">
-                      <TabsList>
-                        <TabsTrigger
-                          value="account"
-                          onClick={() => setFilter3("all")}
-                        >
-                          All
-                        </TabsTrigger>
-                        <TabsTrigger
-                          value="password"
-                          onClick={() => setFilter3("active")}
-                        >
-                          Active
-                        </TabsTrigger>
-                        <TabsTrigger
-                          value="passwords"
-                          onClick={() => setFilter3("inactive")}
-                        >
-                          Inactive
-                        </TabsTrigger>
-                      </TabsList>
-                    </Tabs>
-                  </CardDescription>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <UsersIcon className="h-5 w-5 text-blue-500" />
-                  <p className="text-sm font-medium">{data3?.count}</p>
-                </div>
-              </CardHeader>
-              <CardContent className="h-[200px] space-y-4 overflow-y-auto">
-                {data3?.farmers?.map((item: any, index: any) => (
-                  <div className="flex items-center space-x-4">
-                    <Avatar>
-                      <AvatarImage src="/placeholder-user.jpg" />
-                      <AvatarFallback>U{index + 1}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="font-medium">{item?.buyer_name}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {item?.mobile_no}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
           </div>
         </div>
         <div className="col-span-12 p-4 md:col-span-4">
-          <div className="font-bitter pb-2 text-right text-[30px] font-medium leading-[41.99px] tracking-[0.25px]">
-            Most Viewed Schemes
-          </div>
-          <div className="h-[250px] overflow-auto rounded-sm bg-white p-4">
-            {filteredData.map((item: any, index: number) => {
-              return (
-                <div
-                  key={index}
-                  className="mt-1 flex flex-row gap-2 rounded border-b border-gray-300 pb-2 hover:cursor-pointer hover:shadow-lg"
-                  onClick={() => {
-                    navigae(`/dashboard/governmentSchemes/${item.scheme_id}`);
-                  }}
-                >
-                  <img
-                    src={`${BASE_URL_APP}${item.scheme_image}`}
-                    className="m-1 rounded"
-                    width={50}
-                  />
-                  <div>
-                    <div className="font-roboto text-left text-[13px] text-base font-semibold leading-5 tracking-[0.15px]">
-                      {item.scheme_name}
-                    </div>
-                    <div className="font-roboto text-left text-[10px] text-base font-normal leading-4 tracking-[0.15px] text-[#64748B]">
-                      {truncateText(item.details, 5)}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          <div className="font-bitter mt-4 pb-2 text-right text-[30px] font-medium leading-[41.99px] tracking-[0.25px]">
-            Recent Updates
-          </div>
-          <div className="h-[250px] overflow-auto rounded bg-white p-4">
-            {filteredData.map((item: any, index: number) => {
-              return (
-                <div
-                  key={index}
-                  className="mt-1 flex flex-row gap-2 rounded border-b border-gray-300 pb-2 hover:cursor-pointer hover:shadow-lg"
-                  onClick={() => {
-                    navigae(`/dashboard/governmentSchemes/${item.scheme_id}`);
-                  }}
-                >
-                  <img
-                    src={`${BASE_URL_APP}${item.scheme_image}`}
-                    className="m-1 rounded"
-                    width={50}
-                  />
-                  <div>
-                    <div className="font-roboto text-left text-[13px] text-base font-semibold leading-5 tracking-[0.15px]">
-                      {item.scheme_name}
-                    </div>
-                    <div className="font-roboto text-left text-[10px] text-base font-normal leading-4 tracking-[0.15px] text-[#64748B]">
-                      {truncateText(item.details, 5)}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
         </div>
       </div>
     </Layout>

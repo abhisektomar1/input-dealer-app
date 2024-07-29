@@ -32,7 +32,7 @@ function Login() {
     setIsLoading(true);
     console.log(data);
     try {
-      const res = await axios.post(`${BASE_URL_APP}/Fpo_Login`, data);
+      const res = await axios.post(`${BASE_URL_APP}/Supplier_Login`, data);
       console.log(res);
       dispatch(setUser(res.data))
       localStorage.setItem("userid", res.data.obj_id)
