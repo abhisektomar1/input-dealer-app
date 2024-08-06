@@ -9,7 +9,7 @@ const ShopDetails = () => {
 
   useEffect(() => {
     axiosInstance
-      .post(`/GetFPODetails`)
+      .post(`/GetSupplierProfileDetails`)
       .then((res) => {
         setData(res.data);
       })

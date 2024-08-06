@@ -165,12 +165,12 @@ function Header() {
 
       <div className="hidden items-center space-x-5 md:flex">
         <div className="relative" ref={menuRef1}>
-          <img
+          {/* <img
             src="/images/language.svg"
             alt="Language"
             className="h-10 w-10 rounded-full hover:cursor-pointer"
             onClick={toggleMenu1}
-          />
+          /> */}
           {isMenuOpen1 && (
             <div className="absolute right-0 z-10 mt-2 w-48 rounded-md bg-white py-1 shadow-lg">
               <button

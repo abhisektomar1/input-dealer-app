@@ -27,6 +27,8 @@ function InventoryList() {
   const [stock, setStock] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
+  console.log(selectedRow);
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -126,7 +128,7 @@ function InventoryList() {
     console.log(data);
 
     try {
-      axiosInstance.post(
+      await axiosInstance.post(
         `${BASE_URL_APP}/UpdateInventorybySupplier`,
         {
           inventory_id: selectedRow?.inventory_id,

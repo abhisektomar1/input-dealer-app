@@ -23,7 +23,6 @@ import {
 import { BASE_URL_APP } from "../../../utils";
 import { toast, ToastContentProps } from "react-toastify";
 import axios from "axios";
-import { ChevronDown } from "lucide-react";
 import { useAppSelector } from "../../../store/hooks";
 
 function ProductList() {
@@ -37,6 +36,8 @@ function ProductList() {
     setIsMenuOpen(!isMenuOpen);
   };
   const handleFileChange = async (event: any) => {
+    console.log("hii");
+    
     const file = event.target.files[0];
     if(!file){
       toast.error("Please Select a file and try again!!")
@@ -45,17 +46,23 @@ function ProductList() {
     try {
       const formData = new FormData();
       formData.append("excel_file", file);
-      formData.append("userid", user?.obj_id);
-      formData.append("filter_type", filter);
-      const res = await axios.post(`${BASE_URL_APP}/AddProductDetails_FPO_Csv`, formData);
+      formData.append("supplier_id", user?.obj_id);
+      const res = await axios.post(`${BASE_URL_APP}/AddProductDetails_Supplier_Csv`, formData);
+      console.log(res);
+      
       if(res.data.errors){ 
         res.data.errors.map((err: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
           toast.error(err)
         })
       }
       toast(res.data.message || "Something went wrong");
-    } catch (error) {
+    } catch (error:any) {
       console.log(error);
+      if(error.response.data.errors){ 
+        error.response.data.errors.map((err: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | ((props: ToastContentProps<unknown>) => React.ReactNode) | null | undefined) => {
+          toast.error(err)
+        })
+      }
     }
   };
   return (
@@ -71,7 +78,7 @@ function ProductList() {
                   className="rounded border-primary bg-transparent text-primary hover:text-primary"
                 >
                   <img src="/images/exel.svg" className="mr-2" />
-                  Uplaod {filter} Data
+                  Uplaod  Data
                 </Button>
               </DialogTrigger>
               <DialogContent className="">
@@ -81,8 +88,7 @@ function ProductList() {
                     Donwload the sample file and then upload your data according
                     to the file...
                     <div className="my-6 flex flex-col gap-2">
-                      {
-                        filter === "Agricultural Inputs" && <a href="/sample/Inputs.xlsx" download="sample/.xlsx">
+                        <a href="/sample/Inputs.xlsx" download="sample/.xlsx">
                         <Button
                           variant="outline"
                           className="w-full rounded border-primary bg-transparent text-primary hover:text-primary"
@@ -91,31 +97,6 @@ function ProductList() {
                           Download Sample for Agriculture Inputs
                         </Button>
                       </a>
-                      }
-                       {
-                        filter === "Crops" &&  <a href="/sample/Crops.xlsx" download="sample.xlsx">
-                        <Button
-                          variant="outline"
-                          className="w-full rounded border-primary bg-transparent text-primary hover:text-primary"
-                        >
-                          <img src="/images/exel.svg" className="mr-2" />
-                          Download Sample for Crops
-                        </Button>
-                      </a>
-                      }
-                       {
-                        filter === "Finish Goods" &&   <a href="/sample/goods.xlsx" download="sample.xlsx">
-                        <Button
-                          variant="outline"
-                          className="w-full rounded border-primary bg-transparent text-primary hover:text-primary"
-                        >
-                          <img src="/images/exel.svg" className="mr-2" />
-                          Download Sample for Finished Goods
-                        </Button>
-                      </a>
-                      }
-                     
-                     
                       <img src="/images/sample.svg" className="mt-2"/>
                       <Button
                         className="mt-4 w-full rounded"
@@ -131,7 +112,7 @@ function ProductList() {
                         id="xlsx-upload"
                         type="file"
                         accept=".xlsx"
-                        onChange={handleFileChange}
+                        onChange={(e) => {handleFileChange(e)}}
                         className="hidden"
                       />
                     </div>
@@ -140,40 +121,11 @@ function ProductList() {
               </DialogContent>
             </Dialog>
             <div className="relative" ref={menuRef}>
-              <Button className="rounded" onClick={toggleMenu}>
-                Add Product <ChevronDown />
-              </Button>
-              {isMenuOpen && (
-                <div className="absolute right-0 z-10 mt-2 w-48 rounded-md bg-white py-1 shadow-lg">
-                  <a
-                    href=""
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    onClick={() => {
+              <Button className="rounded"   onClick={() => {
                       navigate("/dashboard/newProducts/Agricultural Inputs");
-                    }}
-                  >
-                    Agricultural Inputs
-                  </a>
-                  <a
-                    href=""
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    onClick={() => {
-                      navigate("/dashboard/newProducts/Crops");
-                    }}
-                  >
-                    Crops
-                  </a>
-                  <a
-                    href=""
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    onClick={() => {
-                      navigate("/dashboard/newProducts/Finish Goods");
-                    }}
-                  >
-                    Finished Goods
-                  </a>
-                </div>
-              )}
+                    }}>
+                Add Product 
+              </Button>
             </div>
           </div>
         </div>
@@ -186,15 +138,6 @@ function ProductList() {
               }}
             >
               Agricultural Inputs
-            </TabsTrigger>
-            <TabsTrigger value="password" onClick={() => setFilter("Crops")}>
-              Crops
-            </TabsTrigger>
-            <TabsTrigger
-              value="passwords"
-              onClick={() => setFilter("Finish Goods")}
-            >
-              Finished Goods
             </TabsTrigger>
           </TabsList>
           <TabsContent value="account">

@@ -16,9 +16,7 @@ function InputsTable() {
 
     useEffect(() => {
         axiosInstance
-          .post(`/GetFPOProductDetails`,{
-            filter_type:"Agricultural Inputs"
-          })
+          .post(`/GetThirdPartySupplier_AllProducts`,)
           .then((res) => {
             if(res.data.status === "success"){
                 setData(res.data.products);
@@ -67,16 +65,16 @@ function InputsTable() {
             header: "Category ",
           },
           {
-            accessorKey: "measurement_type",
+            accessorKey: "purchase_price",
             enableClickToCopy: true,
             filterVariant: "autocomplete",
-            header: "Measurement Type",
+            header: "Purchase Price",
           },
           {
-            accessorKey: "selling_price",
+            accessorKey: "final_price",
             enableClickToCopy: true,
             filterVariant: "autocomplete",
-            header: "Selling Price",
+            header: "Final Price",
           },
         ],
       },

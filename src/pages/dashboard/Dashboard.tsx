@@ -8,11 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../../components/ui/card";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "../../components/ui/avatar";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 import { Area, AreaChart } from "recharts";
 import {
@@ -24,10 +19,6 @@ import {
 import { Tabs, TabsList, TabsTrigger } from "../../components/ui/tabs";
 import axiosInstance from "../../service/AxiosInstance";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../store/hooks";
-import axios from "axios";
-import { BASE_URL_APP } from "../../utils";
 
 function Dashboard() {
   const [data, setData] = useState<any>([]);
@@ -40,11 +31,11 @@ function Dashboard() {
   const [filter4, setFilter4] = useState<string>("Agricultural Inputs");
   const [filter5, setFilter5] = useState<string>("Online");
 
-  console.log(data5, filter5);
+  console.log(data, filter5);
 
   useEffect(() => {
     axiosInstance
-      .post(`/FPOInventoryinstock`, {
+      .post(`/Supplier_Inventoryinstock`, {
         filter_type: filter,
       })
       .then((res) => {
@@ -62,7 +53,7 @@ function Dashboard() {
 
   useEffect(() => {
     axiosInstance
-      .post(`/FPOInventoryoutstock`, {
+      .post(`/Supplier_Inventoryoutofstock`, {
         filter_type: filter2,
       })
       .then((res) => {
@@ -81,7 +72,7 @@ function Dashboard() {
 
   useEffect(() => {
     axiosInstance
-      .post(`/GetTotalSalesByFPOMonth`, {
+      .post(`/GetTotalSalesBySupplierMonth`, {
         filter_type: filter4,
       })
       .then((res) => {
@@ -99,9 +90,9 @@ function Dashboard() {
 
   useEffect(() => {
     axiosInstance
-      .post(`/GetTotalSalesByFPO`, {
-        filter_type: filter5,
-        sales_status: filter4,
+      .post(`/GetTotalSalesBySuppliers`, {
+        filter_type: filter4,
+        sales_status: filter5,
       })
       .then((res) => {
         console.log(res);
@@ -187,18 +178,6 @@ function Dashboard() {
                           value="account"
                         >
                           Agricultural Inputs
-                        </TabsTrigger>
-                        <TabsTrigger
-                          onClick={() => setFilter4("Crops")}
-                          value="password"
-                        >
-                          Crops
-                        </TabsTrigger>
-                        <TabsTrigger
-                          onClick={() => setFilter4("Finish Goods")}
-                          value="regt"
-                        >
-                          Finished Product
                         </TabsTrigger>
                       </TabsList>
                     </Tabs>
@@ -289,8 +268,12 @@ function Dashboard() {
                 {/* <LinechartChart className="aspect-[4/3] w-full" /> */}
               </CardContent>
             </Card>
-            <div className="grid gap-6 md:grid-cols-2 ">
-              <Card>
+         
+          </div>
+        </div>
+        <div className="col-span-12 p-4 md:col-span-4">
+        <div className="flex flex-col">
+              <Card className="mt-10">
                 <CardHeader className="flex justify-between pb-1 pt-4">
                   <div>
                     <CardTitle>In Stock</CardTitle>
@@ -314,7 +297,7 @@ function Dashboard() {
                     </CardDescription>
                   </div>
                 </CardHeader>
-                <CardContent className="h-[170px] overflow-y-auto">
+                <CardContent className="h-[120px] overflow-y-auto">
                   {data?.InStock?.map((item: any) => (
                     <>
                       <div className="flex justify-between">
@@ -343,8 +326,8 @@ function Dashboard() {
                     Total Stock In
                   </p>
                 </CardFooter>
-              </Card>
-              <Card>
+              </Card >
+              <Card className="mt-10">
                 <CardHeader className="flex justify-between pb-1 pt-4">
                   <div>
                     <CardTitle>Out Stock</CardTitle>
@@ -368,7 +351,7 @@ function Dashboard() {
                     </CardDescription>
                   </div>
                 </CardHeader>
-                <CardContent className="h-[170px] overflow-y-auto">
+                <CardContent className="h-[120px] overflow-y-auto">
                   {data2?.OutofStock?.map((item: any) => (
                     <>
                       <div className="flex justify-between">
@@ -401,9 +384,6 @@ function Dashboard() {
                 </CardFooter>
               </Card>
             </div>
-          </div>
-        </div>
-        <div className="col-span-12 p-4 md:col-span-4">
         </div>
       </div>
     </Layout>

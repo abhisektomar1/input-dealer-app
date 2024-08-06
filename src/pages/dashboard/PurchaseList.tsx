@@ -15,7 +15,7 @@ function PurchaseList() {
  
   useEffect(() => {
     axiosInstance
-      .post(`/GetCustomerRecordSales`)
+      .post(`/GetThirdPartySupplier_AllProducts`)
       .then((res) => {
         if (res.status === 200) {
           setData(res.data.data);

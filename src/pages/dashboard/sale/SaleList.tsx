@@ -19,7 +19,7 @@ function SaleList() {
  
   useEffect(() => {
     axiosInstance
-      .post(`/GetCustomerRecordSales`)
+      .post(`/GetSupplier_CustomerRecordSales`)
       .then((res) => {
         console.log(res);
         

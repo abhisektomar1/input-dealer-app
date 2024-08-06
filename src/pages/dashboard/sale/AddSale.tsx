@@ -98,7 +98,7 @@ function NewSale() {
 
   useEffect(() => {
     axiosInstance
-      .post(`/GetFPOAllProducts`)
+      .post(`/GetThirdPartySupplier_AllProducts`)
       .then((res) => {
         if (res.status === 200) {
           setData(
@@ -140,7 +140,7 @@ function NewSale() {
     };
 
     try {
-      await axiosInstance.post(`${BASE_URL_APP}/AddSalesbyFPO`, saleData);
+      await axiosInstance.post(`${BASE_URL_APP}/AddSalesbySupplier`, saleData);
       toast("Sale Done Successfully");
       navigate("/dashboard/sale");
     } catch (error: any) {

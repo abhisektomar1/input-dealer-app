@@ -53,7 +53,7 @@ const ShopEdit: React.FC = () => {
 
   useEffect(() => {
     axiosInstance
-      .post(`/GetFPODetails`)
+      .post(`/GetSupplierProfileDetails`)
       .then((res) => {
         console.log(res.data.shop_details[0]);
         setData(res.data);
@@ -79,7 +79,7 @@ const ShopEdit: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const res = await axiosInstance.post(`/FPO_profile_update`, data);
+      const res = await axiosInstance.post(`/Supplier_Profile_Update`, data);
       toast("Profile Updated Successfully!!");
       navigate("/dashboard/userProfile")
 

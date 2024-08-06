@@ -9,7 +9,7 @@ export const useHeaderData = () => {
   useEffect(() => {
     const fetchHeaderData = async () => {
       try {
-        const response = await axiosInstance.post(`/GetFPODetails`);
+        const response = await axiosInstance.post(`/GetSupplierProfileDetails`);
         setHeaderData(response.data);
       } catch (error) {
         console.error('Error fetching header data:', error);

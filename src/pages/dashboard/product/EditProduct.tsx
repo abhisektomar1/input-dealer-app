@@ -117,7 +117,7 @@ console.log(dataa);
 
     try {
        await axiosInstance.post(
-        `${BASE_URL_APP}/UpdateProduct_DeatilsFPO`,
+        `${BASE_URL_APP}/UpdateProduct_DeatilsSuppliers`,
         {
           ...dataa,
           product_id: id,
@@ -135,7 +135,7 @@ console.log(dataa);
 
   useEffect(() => {
     axiosInstance
-      .post(`/GetSingleProduct_FPODetails`, {
+      .post(`/GetSingleProduct_SupplierDetails`, {
         product_id: id,
       })
       .then((res) => setData(res.data.success))

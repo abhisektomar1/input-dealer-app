@@ -139,7 +139,7 @@ function NewProducts() {
 
     try {
       const res = await axiosInstance.post(
-        `${BASE_URL_APP}/AddProductDetails_FPO`,
+        `${BASE_URL_APP}/AddProductDetails_Suppliers`,
         dataa,
       );
       toast("Product Created Successfully");

@@ -37,7 +37,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     axiosInstance
-      .post(`/GetFPODetails`)
+      .post(`/GetSupplierProfileDetails`)
       .then((res) => {
         setData(res.data.data[0]);
       })
@@ -70,7 +70,7 @@ const UserProfile = () => {
     console.log(data);
 
     try {
-      const res = await axiosInstance.post(`/FPO_profile_update`, data);
+      const res = await axiosInstance.post(`/Supplier_Profile_Update`, data);
       console.log(res);
 
       toast("Profile Updated");
@@ -86,7 +86,7 @@ const UserProfile = () => {
       <Card className="p-4 py-8">
         <Tabs defaultValue="account">
           <TabsList>
-            <TabsTrigger value="account">FPO Details</TabsTrigger>
+            <TabsTrigger value="account">Supplier Details</TabsTrigger>
             <TabsTrigger value="password">Shop Details</TabsTrigger>
           </TabsList>
           <TabsContent value="account">

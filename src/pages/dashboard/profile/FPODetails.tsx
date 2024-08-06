@@ -34,7 +34,7 @@ const FPODetails = () => {
 
   useEffect(() => {
     axiosInstance
-      .post(`/GetFPODetails`)
+      .post(`/GetSupplierProfileDetails`)
       .then((res) => {
         setData(res.data);
       })
@@ -66,10 +66,10 @@ const FPODetails = () => {
     const file = imageRef.current.files[0];
     const formData = new FormData();
     formData.append("profile_image", file);
-    formData.append("userid", user?.obj_id);
+    formData.append("supplier_id", user?.obj_id);
 
     try {
-      await axios.post(`${BASE_URL_APP}/FPOProfilePictureUpdate`, 
+      await axios.post(`${BASE_URL_APP}/SupplierProfilePictureUpdate`, 
         formData
       );
       toast("Profile Updated Successfully");
@@ -77,7 +77,7 @@ const FPODetails = () => {
       console.log(error);
       toast.error(error.message);
     } finally{
-      window.location.reload();
+       window.location.reload();
     }
   };
   const onSubmit = async (data: any) => {
@@ -85,7 +85,7 @@ const FPODetails = () => {
     setIsLoading(true);
 
     try {
-      const res = await axiosInstance.post(`/FPO_profile_update`, {
+      const res = await axiosInstance.post(`/Supplier_Profile_Update`, {
         business_establishdate: "2023-07-06",
         ...dataa,
       });

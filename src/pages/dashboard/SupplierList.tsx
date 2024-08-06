@@ -15,10 +15,10 @@ function SupplierList() {
  
   useEffect(() => {
     axiosInstance
-      .post(`/GetFPOSuppliersInfo`)
+      .post(`/GetThirdPartySupplier_AllProducts`)
       .then((res) => {
         if (res.status === 200) {
-          setData(res.data.supplier_details
+          setData(res.data.products
           );
         } else {
           toast.error("Something went wrong!");
@@ -26,7 +26,7 @@ function SupplierList() {
       })
       .catch((error) => {
         console.log(error);
-        toast.error(error.message);
+        toast.error(error?.response?.data?.message || "Something went wrong!");
       });
   }, []);
 
@@ -48,46 +48,34 @@ function SupplierList() {
         id: "data",
         columns: [
           {
-            accessorKey: "suppliername",
+            accessorKey: "supplier_name",
             enableClickToCopy: true,
             filterVariant: "autocomplete",
             header: "Supplier Name",
           },
           {
-            accessorKey: "suppliermobileno",
-            enableClickToCopy: true,
-            filterVariant: "autocomplete",
-            header: "Supplier Mobile No.",
-          },
-          {
-            accessorKey: "product_names",
+            accessorKey: "productName",
             enableClickToCopy: true,
             filterVariant: "autocomplete",
             header: "Product Name",
           },
           {
-            accessorKey: "producttype",
+            accessorKey: "product_type",
             enableClickToCopy: true,
             filterVariant: "autocomplete",
             header: "Product Type",
           },
           {
-            accessorKey: "quantity",
+            accessorKey: "purchase_price",
             enableClickToCopy: true,
             filterVariant: "autocomplete",
-            header: "Quantity",
+            header: "Purchase Price",
           },
           {
-            accessorKey: "unit_pricebought",
+            accessorKey: "final_price",
             enableClickToCopy: true,
             filterVariant: "autocomplete",
-            header: "Unit Bought Price",
-          },
-          {
-            accessorKey: "total_amount",
-            enableClickToCopy: true,
-            filterVariant: "autocomplete",
-            header: "Total Amount",
+            header: "Final Price",
           },
         ],
       },
