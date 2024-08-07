@@ -13,10 +13,10 @@ import { toast } from "react-toastify";
 
 type Inputs = {
   mobile_no: string;
-  password: string;
+  new_password: string;
 };
 
-function Login() {
+function ChangePassword() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -30,14 +30,11 @@ function Login() {
 
   const onSubmit = async (data: Inputs) => {
     setIsLoading(true);
-    console.log(data);
     try {
-      const res = await axios.post(`${BASE_URL_APP}/Supplier_Login`, data);
+      const res = await axios.post(`${BASE_URL_APP}/Supplier_Reset_Password`, data);
       console.log(res);
-      dispatch(setUser(res.data))
-      localStorage.setItem("userid", res.data.obj_id)
-      navigate("/dashboard/home")
-      toast("Login Success")
+      toast("Password Changed Successfully")
+      navigate("/login")
     } catch (error: any) {
       console.log(error);
       toast.error(error.response.data.message || "something went wrong")
@@ -56,11 +53,8 @@ function Login() {
 
           <div className="flex flex-col items-center justify-center p-8">
             <h3 className="font-roboto text-center text-3xl font-medium leading-[56.02px]">
-              Log in
+              Change Password
             </h3>
-            <p className="text-center text-base font-normal leading-[16.8px] tracking-[0.17px] text-gray-500">
-              Sign up to start your journey with us
-            </p>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mt-8 flex w-[300px] flex-col items-start justify-start">
                 <label
@@ -93,11 +87,11 @@ function Login() {
                   htmlFor="email"
                   className="block text-sm font-medium text-primary"
                 >
-                  Password
+                 New Password
                 </label>
                 <Input
                   type={showPassword ? "text" : "password"}
-                  {...register("password", {
+                  {...register("new_password", {
                     required: true,
                     // pattern:
                     //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&()_+])[A-Za-z\d!@#$%^&*()_+]{5,10}$/,
@@ -114,21 +108,13 @@ function Login() {
                     className="absolute right-[12px] top-[35px]"
                   />
                 )}
-                {errors.password && (
+                {errors.new_password && (
                   <p style={{ color: "#ff0000", fontSize: 12 }}>
                     Password is required and must contain at least one lowercase
                     letter, one uppercase letter, and one special character
                   </p>
                 )}
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-primary self-end mt-2 hover:cursor-pointer"
-                  onClick={() => {
-                    navigate("/changePassword")
-                  }}
-                >
-                  Change Password 
-                </label>
+               
               </div>
               <div className="flex flex-col items-center justify-center">
                 <Button type="submit" className="mt-4 w-[300px] rounded">
@@ -137,7 +123,7 @@ function Login() {
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     )
                   }
-                  LOG IN
+                  Submit
                 </Button>
               </div>
             </form>
@@ -153,4 +139,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default ChangePassword;

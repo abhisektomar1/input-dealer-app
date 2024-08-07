@@ -37,6 +37,7 @@ import ShopEdit from "./pages/dashboard/profile/ShopEdit";
 import { useEffect } from "react";
 import CursorTrailCanvas from "./components/CursorAnimation";
 import Dashboard from "./pages/dashboard/Dashboard";
+import ChangePassword from "./pages/auth/ChangePassword";
 
 function App() {
 
@@ -66,6 +67,7 @@ function App() {
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/NewPassword/:email" element={<NewPassword />} />
           <Route path="/otpVerify/:email" element={<OtpVerify />} />
+          <Route path="/changePassword" element={<ChangePassword />} />
 
 
           {/* Protected Routes */}

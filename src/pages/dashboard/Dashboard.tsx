@@ -168,7 +168,7 @@ function Dashboard() {
             <Card>
               <CardHeader className="flex justify-between">
                 <div>
-                  <CardTitle>Sales Insights</CardTitle>
+                  <CardTitle className="text-xl font-bold">Sales Insights</CardTitle>
                 
                   <CardDescription className="py-2 flex flex-row justify-between items-center">
                     <Tabs defaultValue="account">
@@ -276,7 +276,7 @@ function Dashboard() {
               <Card className="mt-10">
                 <CardHeader className="flex justify-between pb-1 pt-4">
                   <div>
-                    <CardTitle>In Stock</CardTitle>
+                    <CardTitle className="text-xl font-bold">In Stock</CardTitle>
                     <CardDescription>
                       <Tabs defaultValue="account" className="my-2">
                         <TabsList>
@@ -326,11 +326,11 @@ function Dashboard() {
                     Total Stock In
                   </p>
                 </CardFooter>
-              </Card >
+              </Card>
               <Card className="mt-10">
                 <CardHeader className="flex justify-between pb-1 pt-4">
                   <div>
-                    <CardTitle>Out Stock</CardTitle>
+                    <CardTitle className="text-xl font-bold">Out Stock</CardTitle>
                     <CardDescription>
                       <Tabs defaultValue="account" className="my-2">
                         <TabsList>
