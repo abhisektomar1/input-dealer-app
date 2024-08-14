@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { Box } from '@mui/material';
 import { BASE_URL_APP } from '../../../utils';
 import { Navigate, useNavigate } from 'react-router-dom';
+import EditAll from './EditAll';
 
 function InputsTable() {
 
@@ -12,7 +13,8 @@ function InputsTable() {
 
     
     const [data, setData] = useState<any>([]);
-    console.log(data);
+    const [open, setOpen] = useState(false)
+    const [id, setID] = useState<any>([])
 
     useEffect(() => {
         axiosInstance
@@ -43,7 +45,7 @@ function InputsTable() {
     enableColumnPinning: false,
     enableFacetedValues: false,
     enableRowActionsTrue: true,
-    enableRowSelection: false,
+    enableRowSelection: true,
     showColumnFilters: true,
     showGlobalFilter: true, // Assuming this should also be passed as a prop
   };
@@ -81,6 +83,16 @@ function InputsTable() {
     ],
     [],
   );
+
+  const selectedRowAction = (table:any) =>{
+    setOpen(true)
+    const arr:any =[];
+    table.getSelectedRowModel().flatRows.map((row:any) => {
+      console.log(row.original,"row");
+      arr.push(row.original.product_id)
+    });
+      setID(arr)
+  }
   return (
     <div className="tableDatadiv px-3 py-2">
         <Table
@@ -89,7 +101,9 @@ function InputsTable() {
           data={data}
           isEdit={true}
           editClick={editClick}
+          selectedRowAction={selectedRowAction}
         ></Table>
+ <EditAll open={open} setOpen={setOpen} id={id} />
         </div>
   )
 }

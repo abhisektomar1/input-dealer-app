@@ -23,6 +23,8 @@ type FormData = {
   shop_closedon: string;
   shopName:string;
   shopContactNo:number;
+  shopLatitude:number;
+  shopLongitude:number;
 };
 
 const timeOpenOptions = [
@@ -67,7 +69,8 @@ const ShopEdit: React.FC = () => {
           setValue('shop_closedon', shopDetails.shop_closedon);
           setValue('shopName', shopDetails.shopName);
           setValue('shopContactNo', shopDetails.shopContactNo);
-
+          setValue('shopLongitude', shopDetails.shopLongitude);
+          setValue('shopLatitude', shopDetails.shopLatitude);
         }
       })
       .catch((error) => {
@@ -122,6 +125,32 @@ const ShopEdit: React.FC = () => {
                         valueAsNumber:true
                       })}
                       placeholder="Shop Contact No."
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-row items-center justify-between gap-4 p-2">
+                  <div className="font-roboto text-left text-base font-medium leading-6 tracking-wide">
+                  Shop Latitude
+                  </div>
+                  <div className="w-[350px]">
+                    <Input
+                      {...register("shopLatitude",{
+                        valueAsNumber:true
+                      })}
+                      placeholder="Shop Latitude"
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-row items-center justify-between gap-4 p-2">
+                  <div className="font-roboto text-left text-base font-medium leading-6 tracking-wide">
+                  Shop Longitude
+                  </div>
+                  <div className="w-[350px]">
+                    <Input
+                      {...register("shopLongitude",{
+                        valueAsNumber:true
+                      })}
+                      placeholder="Shop Longitude"
                     />
                   </div>
                 </div>

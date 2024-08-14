@@ -78,6 +78,22 @@ const ShopDetails = () => {
 
             </div>
           </div>
+          <div className="flex w-full flex-row items-center justify-between p-2">
+            <div className="font-roboto text-left text-base font-medium leading-6 tracking-wide">
+              Shop Latitude
+            </div>
+            <div className="font-roboto font-small text-left text-base leading-6 tracking-wide text-slate-700">
+            {data?.shop_details[0]?.shopLatitude}
+            </div>
+          </div>
+          <div className="flex w-full flex-row items-center justify-between p-2">
+            <div className="font-roboto text-left text-base font-medium leading-6 tracking-wide">
+              Shop Longitude
+            </div>
+            <div className="font-roboto font-small text-left text-base leading-6 tracking-wide text-slate-700">
+            {data?.shop_details[0]?.shopLongitude}
+            </div>
+          </div>
         </Card>
       </div>
     </div>

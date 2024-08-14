@@ -7,7 +7,7 @@ import {
   MRT_ToggleFullScreenButton,
   useMaterialReactTable,
 } from "material-react-table";
-import { Box, ListItemIcon, MenuItem } from "@mui/material";
+import { Box, Button, ListItemIcon, MenuItem } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
@@ -15,6 +15,7 @@ import SaveAsIcon from "@mui/icons-material/SaveAs";
 import PublishIcon from "@mui/icons-material/Publish";
 import { lighten } from "@mui/system";
 import { NavLink } from "react-router-dom";
+import axiosInstance from "../../service/AxiosInstance";
 
 interface Props {
   enableRowActionsTrue: boolean;
@@ -39,6 +40,7 @@ interface Props {
   isAddsupplier?: boolean;
   databstoggleViewModal?: () => void;
   databstoggleViewModal2?: () => void;
+  selectedRowAction?:any;
   AddSupplier?: string;
   isAddagent?: boolean;
   isEdit?: boolean;
@@ -74,6 +76,7 @@ const Table: React.FC<Props> = ({
   buttonText,
   buttonLink,
   isbutton,
+  selectedRowAction,
 }) => {
   const handleEditClick = (e: React.MouseEvent, row: any) => {
     if (editClick) {
@@ -177,6 +180,10 @@ const Table: React.FC<Props> = ({
       ),
     ],
     renderTopToolbar: ({ table }) => {
+
+      const handleActivate = () => {
+        selectedRowAction(table)
+      };
       return (
         <Box
           sx={(theme) => ({
@@ -200,6 +207,18 @@ const Table: React.FC<Props> = ({
                 <MRT_ShowHideColumnsButton table={table} />
                 <MRT_ToggleDensePaddingButton defaultValue={4} table={table} />
                 <MRT_ToggleFullScreenButton table={table} />
+                <Box>
+            <Box sx={{ display: 'flex', gap: '0.5rem' }}>
+              <Button
+                color="success"
+                disabled={!table.getIsSomeRowsSelected()}
+                onClick={handleActivate}
+                variant="contained"
+              >
+                Edit Selected 
+              </Button>
+            </Box>
+          </Box>
           </Box>
         </Box>
       );
