@@ -12,7 +12,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 
 type Inputs = {
-  mobile_no: string;
+  mobile: string;
   password: string;
 };
 
@@ -32,15 +32,19 @@ function Login() {
     setIsLoading(true);
     console.log(data);
     try {
-      const res = await axios.post(`${BASE_URL_APP}/Supplier_Login`, data);
+      const res = await axios.post(`${BASE_URL_APP}/fposupplier/UserLogin`, {
+        user_type:"supplier",
+        ...data
+      });
       console.log(res);
       dispatch(setUser(res.data))
-      localStorage.setItem("userid", res.data.obj_id)
+      localStorage.setItem("token", res.data.tokens.access)
+      localStorage.setItem("refresh_tokens", res.data.tokens.refresh)
       navigate("/dashboard/home")
       toast("Login Success")
     } catch (error: any) {
       console.log(error);
-      toast.error(error.response.data.message || "something went wrong")
+      toast.error(error.response.data.error || "something went wrong")
     } finally {
       setIsLoading(false);
     }
@@ -69,7 +73,7 @@ function Login() {
                 >
                   Phone
                 </label>
-                <Input {...register("mobile_no", {
+                <Input {...register("mobile", {
                   required: true,
                   minLength: 10,
                   maxLength: 10,
@@ -81,10 +85,10 @@ function Login() {
                       e.preventDefault();
                     }
                   }} />
-                {errors.mobile_no && errors.mobile_no.type === "required" && (
+                {errors.mobile && errors.mobile.type === "required" && (
                   <p style={{ color: "#ff0000", fontSize: 12 }}>Mobile number is required</p>
                 )}
-                {errors.mobile_no && errors.mobile_no.type === "minLength" && (
+                {errors.mobile && errors.mobile.type === "minLength" && (
                   <p style={{ color: "#ff0000", fontSize: 12 }}>Mobile number should be at least 10 digits long</p>
                 )}
               </div>

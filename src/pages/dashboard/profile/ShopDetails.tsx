@@ -9,9 +9,9 @@ const ShopDetails = () => {
 
   useEffect(() => {
     axiosInstance
-      .post(`/GetSupplierProfileDetails`)
+      .get(`/fposupplier/UserProfileView`)
       .then((res) => {
-        setData(res.data);
+        setData(res.data.data);
       })
       .catch((error) => {
         console.log(error);
@@ -35,7 +35,7 @@ const ShopDetails = () => {
              Shop Name
             </div>
             <div className="font-roboto font-small text-left text-base leading-6 tracking-wide text-slate-700">
-              {data?.shop_details[0]?.shopName}
+              {data?.shop_details?.shopName}
             </div>
           </div>
           <div className="flex w-full flex-row items-center justify-between p-2">
@@ -43,7 +43,7 @@ const ShopDetails = () => {
               Mobile No.
             </div>
             <div className="font-roboto font-small text-left text-base leading-6 tracking-wide text-slate-700">
-              {data?.shop_details[0]?.shopContactNo}
+              {data?.shop_details?.shopContactNo}
             </div>
           </div>
           <div className="flex w-full flex-row items-center justify-between p-2">
@@ -51,7 +51,7 @@ const ShopDetails = () => {
               Open Time
             </div>
             <div className="font-roboto font-small text-left text-base leading-6 tracking-wide text-slate-700">
-            {data?.shop_details[0]?.shop_opentime}
+            {data?.shop_details?.shop_opentime}
             </div>
           </div>
           <div className="flex w-full flex-row items-center justify-between p-2">
@@ -59,23 +59,23 @@ const ShopDetails = () => {
               Close Time
             </div>
             <div className="font-roboto font-small text-left text-base leading-6 tracking-wide text-slate-700">
-            {data?.shop_details[0]?.shop_closetime}
+            {data?.shop_details?.shop_closetime}
             </div>
           </div><div className="flex w-full flex-row items-center justify-between p-2">
             <div className="font-roboto text-left text-base font-medium leading-6 tracking-wide">
               Open Days
             </div>
             <div className="font-roboto font-small text-left text-base leading-6 tracking-wide text-slate-700">
-            {data?.shop_details[0]?.shop_opendays}
+            {data?.shop_details?.shop_opendays}
 
             </div>
-          </div><div className="flex w-full flex-row items-center justify-between p-2">
+          </div>
+          <div className="flex w-full flex-row items-center justify-between p-2">
             <div className="font-roboto text-left text-base font-medium leading-6 tracking-wide">
               Close Day
             </div>
             <div className="font-roboto font-small text-left text-base leading-6 tracking-wide text-slate-700">
-            {data?.shop_details[0]?.shop_closedon}
-
+            {data?.shop_details?.shop_closedon}
             </div>
           </div>
           <div className="flex w-full flex-row items-center justify-between p-2">
@@ -83,7 +83,7 @@ const ShopDetails = () => {
               Shop Latitude
             </div>
             <div className="font-roboto font-small text-left text-base leading-6 tracking-wide text-slate-700">
-            {data?.shop_details[0]?.shopLatitude}
+            {data?.shop_details?.shopLatitude}
             </div>
           </div>
           <div className="flex w-full flex-row items-center justify-between p-2">
@@ -91,7 +91,7 @@ const ShopDetails = () => {
               Shop Longitude
             </div>
             <div className="font-roboto font-small text-left text-base leading-6 tracking-wide text-slate-700">
-            {data?.shop_details[0]?.shopLongitude}
+            {data?.shop_details?.shopLongitude}
             </div>
           </div>
         </Card>

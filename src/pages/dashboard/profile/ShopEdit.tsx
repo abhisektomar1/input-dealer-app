@@ -23,8 +23,8 @@ type FormData = {
   shop_closedon: string;
   shopName:string;
   shopContactNo:number;
-  shopLatitude:number;
   shopLongitude:number;
+  shopLatitude:number;
 };
 
 const timeOpenOptions = [
@@ -55,14 +55,13 @@ const ShopEdit: React.FC = () => {
 
   useEffect(() => {
     axiosInstance
-      .post(`/GetSupplierProfileDetails`)
+      .get(`/fposupplier/UserProfileView`)
       .then((res) => {
-        console.log(res.data.shop_details[0]);
-        setData(res.data);
-        
         // Set form values when data is loaded
-        if (res.data.shop_details && res.data.shop_details[0]) {
-          const shopDetails = res.data.shop_details[0];
+        if (res.data.data.shop_details) {
+          const shopDetails = res.data.data.shop_details;
+          console.log(shopDetails);
+          
           setValue('shop_opentime', shopDetails.shop_opentime);
           setValue('shop_closetime', shopDetails.shop_closetime);
           setValue('shop_opendays', shopDetails.shop_opendays);
@@ -82,7 +81,7 @@ const ShopEdit: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const res = await axiosInstance.post(`/Supplier_Profile_Update`, data);
+       await axiosInstance.put(`/fposupplier/UpdateProfile`, data);
       toast("Profile Updated Successfully!!");
       navigate("/dashboard/userProfile")
 
@@ -175,7 +174,6 @@ const ShopEdit: React.FC = () => {
                 </Select>
               )}
             />
-
             <Controller
               name="shop_closetime"
               control={control}

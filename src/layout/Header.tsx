@@ -164,13 +164,13 @@ function Header() {
       </div>
 
       <div className="hidden items-center space-x-5 md:flex">
-        <div className="relative" ref={menuRef1}>
-          {/* <img
+        {/* <div className="relative" ref={menuRef1}>
+          <img
             src="/images/language.svg"
             alt="Language"
             className="h-10 w-10 rounded-full hover:cursor-pointer"
             onClick={toggleMenu1}
-          /> */}
+          />
           {isMenuOpen1 && (
             <div className="absolute right-0 z-10 mt-2 w-48 rounded-md bg-white py-1 shadow-lg">
               <button
@@ -184,7 +184,7 @@ function Header() {
               </button>
               <button
                 className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
-                onClick={() => {
+                 onClick={() => {
                   dispatch(setLan(2));
                   setIsMenuOpen1(false);
                 }}
@@ -193,18 +193,18 @@ function Header() {
               </button>
             </div>
           )}
-        </div>
-        {/* <div className="flex items-center space-x-2 rounded-full border border-gray-400 p-2">
+        </div> */}
+        <div className="flex items-center space-x-2 rounded-full border border-gray-400 p-2">
           <img src="/images/coin.svg" alt="Coins" className="h-5 w-6" />
           <span>300</span>
-        </div> */}
+        </div>
         <Button variant="link" size="icon">
           <img src="/images/bell.svg" alt="Notifications" className="h-5 w-5" />
         </Button>
         <div className="relative" ref={menuRef}>
-          {headerData?.basic_info[0]?.profile ? (
+          {headerData?.profile.profile ? (
             <img
-              src={`${BASE_URL_APP}/media/${headerData?.basic_info[0]?.profile}`}
+              src={`${BASE_URL_APP}${headerData?.profile?.profile}`}
               onClick={toggleMenu}
               className="h-12 w-12 border-primary border-2 rounded-full hover:cursor-pointer"
             />

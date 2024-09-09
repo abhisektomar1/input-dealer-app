@@ -10,7 +10,7 @@ const AuthGuard = () => {
 
 
 
-  if (!user?.obj_id) {
+  if (!user?.tokens?.access) {
     return <Navigate to="/login" replace />;
   }
 

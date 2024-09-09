@@ -24,7 +24,7 @@ const FPODetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const imageRef = useRef<any>();
   const user = useAppSelector((state: any) => state.login.user);
-  
+  const [open, setOpen] = useState(false)
   const {
     register,
     handleSubmit,
@@ -34,9 +34,9 @@ const FPODetails = () => {
 
   useEffect(() => {
     axiosInstance
-      .post(`/GetSupplierProfileDetails`)
+      .get(`/fposupplier/UserProfileView`)
       .then((res) => {
-        setData(res.data);
+        setData(res.data.data);
       })
       .catch((error) => {
         console.log(error);
@@ -44,32 +44,32 @@ const FPODetails = () => {
       .finally(() => {});
   }, []);
 
+
   useEffect(() => {
-    setValue("fpo_name", data?.basic_info[0]?.fpo_name);
-    setValue("mobile_no", data?.basic_info[0]?.mobile_no);
-    setValue("address", data?.basic_info[0]?.address);
+    setValue("supplier_name", data?.profile?.supplier_name);
+    setValue("mobile", data?.profile?.mobile);
+    setValue("address", data?.profile?.address);
     setValue(
       "business_establishdate",
-      data?.bank_business[0]?.business_establishdate,
+      data?.bank_details?.business_establishdate,
     );
-    setValue("registration_id", data?.bank_business[0]?.registration_id);
-    setValue("pan_no", data?.bank_business[0]?.pan_no);
-    setValue("gst_number", data?.bank_business[0]?.gst_number);
-    setValue("accountholder_name", data?.bank_business[0]?.accountholder_name);
-    setValue("account_number", data?.bank_business[0]?.account_number);
-    setValue("bank_name", data?.bank_business[0]?.bank_name);
-    setValue("ifsc_code", data?.bank_business[0]?.ifsc_code);
+    setValue("registration_id", data?.bank_details?.registration_id);
+    setValue("pan_no", data?.bank_details?.pan_no);
+    setValue("gst_number", data?.bank_details?.gst_number);
+    setValue("accountholder_name", data?.bank_details?.accountholder_name);
+    setValue("account_number", data?.bank_details?.account_number);
+    setValue("bank_name", data?.bank_details?.bank_name);
+    setValue("ifsc_code", data?.bank_details?.ifsc_code);
   }, [data, setValue]);
 
   const handleFileChange = async  () => {
     
     const file = imageRef.current.files[0];
     const formData = new FormData();
-    formData.append("profile_image", file);
-    formData.append("supplier_id", user?.obj_id);
+    formData.append("profile", file);
 
     try {
-      await axios.post(`${BASE_URL_APP}/SupplierProfilePictureUpdate`, 
+      await axiosInstance.put(`${BASE_URL_APP}/fposupplier/UpdateProfilePicture`, 
         formData
       );
       toast("Profile Updated Successfully");
@@ -85,7 +85,7 @@ const FPODetails = () => {
     setIsLoading(true);
 
     try {
-      const res = await axiosInstance.post(`/Supplier_Profile_Update`, {
+      const res = await axiosInstance.put(`/fposupplier/UpdateProfile`, {
         business_establishdate: "2023-07-06",
         ...dataa,
       });
@@ -95,6 +95,8 @@ const FPODetails = () => {
       toast.error(error.message);
     } finally {
       setIsLoading(false);
+      setOpen(false)
+      window.location.reload();
     }
   };
   return (
@@ -104,10 +106,10 @@ const FPODetails = () => {
           <div className="relative grid grid-cols-1 gap-4 md:grid-cols-12">
             <div className="col-span-12 p-4 md:col-span-5">
               <div className="flex flex-col items-center justify-center">
-              {data?.basic_info[0]?.profile ? (
+              {data?.profile?.profile ? (
            <img
            className="mt-4 h-44 w-44 rounded-full hover:cursor-pointer"
-           src={`${BASE_URL_APP}/media/${data?.basic_info[0].profile}`}
+           src={`${BASE_URL_APP}${data?.profile.profile}`}
            onClick={() => {
              imageRef.current.click();
            }}
@@ -136,7 +138,7 @@ const FPODetails = () => {
                 />
                 <div className="mt-6 flex w-full flex-row items-center justify-between p-2">
                   <div className="font-roboto text-left text-base font-medium leading-6 tracking-wide">
-                    {data?.basic_info[0]?.fpo_name}
+                  {data?.profile?.supplier_name}
                   </div>
                   <DialogTrigger asChild>
                     <img
@@ -150,7 +152,7 @@ const FPODetails = () => {
                     Phone Number
                   </div>
                   <div className="font-roboto font-small text-left text-base leading-6 tracking-wide text-slate-700">
-                    {data?.basic_info[0]?.mobile_no}
+                  {data?.profile?.mobile}
                   </div>
                 </div>
                 <div className="flex w-full flex-row items-center justify-between p-2">
@@ -158,7 +160,7 @@ const FPODetails = () => {
                     Address
                   </div>
                   <div className="font-roboto font-small text-right text-base leading-6 tracking-wide text-slate-700">
-                    {data?.basic_info[0]?.address}
+                  {data?.profile?.address}
                   </div>
                 </div>
               </div>
@@ -181,7 +183,7 @@ const FPODetails = () => {
                     Established Date
                   </div>
                   <div className="font-roboto font-small text-left text-base leading-6 tracking-wide text-slate-700">
-                    {data?.bank_business[0]?.business_establishdate}
+                  {data?.bank_details?.business_establishdate}
                   </div>
                 </div>
                 <div className="flex w-full flex-row items-center justify-between p-2">
@@ -189,7 +191,7 @@ const FPODetails = () => {
                     Reg. ID
                   </div>
                   <div className="font-roboto font-small text-left text-base leading-6 tracking-wide text-slate-700">
-                    {data?.bank_business[0]?.registration_id}
+                  {data?.bank_details?.registration_id}
                   </div>
                 </div>
                 <div className="flex w-full flex-row items-center justify-between p-2">
@@ -197,7 +199,7 @@ const FPODetails = () => {
                     PAN Number
                   </div>
                   <div className="font-roboto font-small text-left text-base leading-6 tracking-wide text-slate-700">
-                    {data?.bank_business[0]?.pan_no}
+                  {data?.bank_details?.pan_no}
                   </div>
                 </div>
                 <div className="flex w-full flex-row items-center justify-between p-2">
@@ -205,11 +207,10 @@ const FPODetails = () => {
                     GST Number
                   </div>
                   <div className="font-roboto font-small text-left text-base leading-6 tracking-wide text-slate-700">
-                    {data?.bank_business[0]?.gst_number}
+                  {data?.bank_details?.gst_number}
                   </div>
                 </div>
-              </Card>
-              <Card className="rounded border-none p-2 shadow-md">
+              </Card> <Card className="rounded border-none p-2 shadow-md">
                 <div className="mt-6 flex w-full flex-row items-center justify-between p-2">
                   <div className="font-roboto text-left text-base font-medium leading-6 tracking-wide">
                     Bank Details
@@ -220,13 +221,14 @@ const FPODetails = () => {
                       className="hover:cursor-pointer"
                     />
                   </DialogTrigger>
+             
                 </div>
                 <div className="flex w-full flex-row items-center justify-between p-2">
                   <div className="font-roboto text-left text-base font-medium leading-6 tracking-wide">
                     Account Holder Name
                   </div>
                   <div className="font-roboto font-small text-left text-base leading-6 tracking-wide text-slate-700">
-                    {data?.bank_business[0]?.accountholder_name}
+                  {data?.bank_details?.accountholder_name}
                   </div>
                 </div>
                 <div className="flex w-full flex-row items-center justify-between p-2">
@@ -234,7 +236,7 @@ const FPODetails = () => {
                     Account Number
                   </div>
                   <div className="font-roboto font-small text-left text-base leading-6 tracking-wide text-slate-700">
-                    {data?.bank_business[0]?.account_number}
+                  {data?.bank_details?.account_number}
                   </div>
                 </div>
                 <div className="flex w-full flex-row items-center justify-between p-2">
@@ -242,7 +244,7 @@ const FPODetails = () => {
                     Bank Name
                   </div>
                   <div className="font-roboto font-small text-left text-base leading-6 tracking-wide text-slate-700">
-                    {data?.bank_business[0]?.bank_name}
+                  {data?.bank_details?.bank_name}
                   </div>
                 </div>
                 <div className="flex w-full flex-row items-center justify-between p-2">
@@ -250,7 +252,7 @@ const FPODetails = () => {
                     IFSC Code
                   </div>
                   <div className="font-roboto font-small text-left text-base leading-6 tracking-wide text-slate-700">
-                    {data?.bank_business[0]?.ifsc_code}
+                  {data?.bank_details?.ifsc_code}
                   </div>
                 </div>
               </Card>
@@ -264,14 +266,14 @@ const FPODetails = () => {
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-row items-center justify-between p-2">
                   <Input
-                    {...register("fpo_name")}
-                    placeholder="FPO Name"
+                    {...register("supplier_name")}
+                    placeholder="Supplier Name"
                     className="w-full"
                   />
                 </div>
                 <div className="flex flex-row items-center justify-between p-2">
                   <Input
-                    {...register("mobile_no")}
+                    {...register("mobile")}
                     placeholder="Phone Number"
                     className="w-full"
                   />

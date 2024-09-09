@@ -1,30 +1,65 @@
-# React + TypeScript + Vite
+# React Vite TypeScript Project
+This project is a modern web application built with React, Vite, TypeScript, Tailwind CSS, and shadcn/ui.
+🚀 Features
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+##⚡️ Fast development with Vite
+##🔥 React for building user interfaces
+##📘 TypeScript for type safety
+##🎨 Tailwind CSS for utility-first styling
+##🧩 shadcn/ui for beautiful and customizable UI components
 
-Currently, two official plugins are available:
+##📦 Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Node.js (version 14 or later)
+npm or yarn
 
-## Expanding the ESLint configuration
+### 🛠️ Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+**Clone the repository:**
+bashCopy git clone https://accessassist-admin@bitbucket.org/access-assist/fpo-web.git
+cd your-project-name
 
-- Configure the top-level `parserOptions` property like this:
+Install dependencies:
+bashCopynpm install
+# or
+yarn install
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+🏃‍♂️ Running the App
+To start the development server:
+bashCopynpm run dev
+# or
+yarn dev
+This will start the app in development mode. Open http://localhost:5173 to view it in the browser.
+🏗️ Building for Production
+To create a production build:
+bashCopynpm run build
+# or
+yarn build
+This will generate a dist folder with your compiled assets.
+
+# or
+yarn test
+📁 Project Structure
+Copy/
+├── public/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── styles/
+│   ├── App.tsx
+│   └── main.tsx
+├── .gitignore
+├── index.html
+├── package.json
+├── README.md
+├── tsconfig.json
+└── vite.config.ts
+🛠️ Tech Stack
+
+React
+Vite
+TypeScript
+Tailwind CSS
+shadcn/ui
+
