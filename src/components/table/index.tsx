@@ -49,6 +49,9 @@ interface Props {
   buttonText?: string;
   buttonLink?: string;
   isbutton?: boolean;
+  pagination:any;
+  setPagination:any;
+  rowCount:any;
 }
 
 const Table: React.FC<Props> = ({
@@ -77,6 +80,9 @@ const Table: React.FC<Props> = ({
   buttonLink,
   isbutton,
   selectedRowAction,
+  pagination,
+  setPagination,
+  rowCount
 }) => {
   const handleEditClick = (e: React.MouseEvent, row: any) => {
     if (editClick) {
@@ -129,8 +135,12 @@ const Table: React.FC<Props> = ({
       size: "small",
       variant: "outlined",
     },
+    manualPagination:true,
+    onPaginationChange: setPagination,
+    state:{pagination},
+    rowCount,
     positionToolbarAlertBanner: "bottom",
-    paginationDisplayMode: "pages",
+    paginationDisplayMode: "default",
     muiPaginationProps: {
       color: "secondary",
       rowsPerPageOptions: [5, 10, 15],
@@ -180,7 +190,6 @@ const Table: React.FC<Props> = ({
       ),
     ],
     renderTopToolbar: ({ table }) => {
-
       const handleActivate = () => {
         selectedRowAction(table)
       };

@@ -6,6 +6,7 @@ import { Box } from '@mui/material';
 import { BASE_URL_APP } from '../../../utils';
 import { Navigate, useNavigate } from 'react-router-dom';
 import EditAll from './EditAll';
+import { MRT_PaginationState } from 'material-react-table';
 
 function InputsTable() {
 
@@ -15,13 +16,24 @@ function InputsTable() {
     const [data, setData] = useState<any>([]);
     const [open, setOpen] = useState(false)
     const [id, setID] = useState<any>([])
-
+    const [totalPages, setTotalPages] = useState<number>(0);
+    const [pagination, setPagination] = useState<MRT_PaginationState>({
+      pageIndex: 0,
+      pageSize: 5,
+    });
     useEffect(() => {
         axiosInstance
-          .post(`/GetThirdPartySupplier_AllProducts`,)
+          .get(`fposupplier/GetProductDetailsByFPOSupplier`,{
+            params:{
+              producttype:1,
+              page: pagination.pageIndex + 1, // API typically uses 1-based indexing
+              page_size: pagination.pageSize,
+            }
+          })
           .then((res) => {
-            if(res.data.status === "success"){
-                setData(res.data.products);
+            if(res.data.results.status === "success"){
+                setData(res.data.results.data);
+                setTotalPages(res.data.count)
             } else{
                 toast.error("something went wrong!")
             }
@@ -30,12 +42,11 @@ function InputsTable() {
             console.log(error);
             toast.error(error?.response?.data?.message || "Something went wrong!");
           });
-      }, []);
+      }, [pagination.pageIndex, pagination.pageSize]);
 
       const editClick = (e: React.MouseEvent, row: any) =>{
-        console.log(row);
-           navigate(`/dashboard/ProductEdit/${row.product_id}`)
-      }
+        navigate(`/dashboard/ProductEdit/${row.id}`)
+   }
 
 
   const tableProps = {
@@ -67,16 +78,22 @@ function InputsTable() {
             header: "Category ",
           },
           {
-            accessorKey: "purchase_price",
+            accessorKey: "measurement_type",
             enableClickToCopy: true,
             filterVariant: "autocomplete",
-            header: "Purchase Price",
+            header: "Measurement Type",
           },
           {
-            accessorKey: "final_price",
+            accessorKey: "measurement_unit",
             enableClickToCopy: true,
             filterVariant: "autocomplete",
-            header: "Final Price",
+            header: "Measurement Unit",
+          },
+          {
+            accessorKey: "quantity",
+            enableClickToCopy: true,
+            filterVariant: "autocomplete",
+            header: "Quantity",
           },
         ],
       },
@@ -96,6 +113,9 @@ function InputsTable() {
   return (
     <div className="tableDatadiv px-3 py-2">
         <Table
+           pagination={pagination}
+           setPagination={setPagination}
+           rowCount={totalPages}
           {...tableProps}
           columns={columns}
           data={data}

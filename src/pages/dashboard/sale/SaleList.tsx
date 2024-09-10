@@ -10,21 +10,30 @@ import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTit
 import { Button } from "../../../components/ui/button";
 import {Loader2 } from "lucide-react";
 import { BASE_URL_APP } from "../../../utils";
+import { MRT_PaginationState } from "material-react-table";
 
 function SaleList() {
   const navigate = useNavigate();
   const [data, setData] = useState<any>([]);
-
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [pagination, setPagination] = useState<MRT_PaginationState>({
+    pageIndex: 0,
+    pageSize: 5,
+  });
 
  
   useEffect(() => {
     axiosInstance
-      .post(`/GetSupplier_CustomerRecordSales`)
+      .get(`/fposupplier/AddGetSales`,{
+        params:{
+          page: pagination.pageIndex + 1, // API typically uses 1-based indexing
+          page_size: pagination.pageSize,
+        }
+      })
       .then((res) => {
-        console.log(res);
-        
-        if (res.status === 200) {
-          setData(res.data.data);
+        if (res.data.results.status === "success") {
+          setData(res.data.results.inventory);
+          setTotalPages(res.data.count)
         } else {
           toast.error("Something went wrong!");
         }
@@ -99,6 +108,9 @@ function SaleList() {
          
           <div className="tableDatadiv px-3 py-2">
             <Table
+             pagination={pagination}
+             setPagination={setPagination}
+             rowCount={totalPages}
               {...tableProps}
               columns={columns}
               data={data}

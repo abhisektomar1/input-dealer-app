@@ -6,29 +6,39 @@ import { Card } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import Table from "../../components/table";
 import axiosInstance from "../../service/AxiosInstance";
+import { MRT_PaginationState } from "material-react-table";
 
 
 function SupplierList() {
   const navigate = useNavigate();
   const [data, setData] = useState<any>([]);
-
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [pagination, setPagination] = useState<MRT_PaginationState>({
+    pageIndex: 0,
+    pageSize: 5,
+  });
  
   useEffect(() => {
     axiosInstance
-      .post(`/GetThirdPartySupplier_AllProducts`)
+      .get(`/fposupplier/PurchaseInfo`, {
+        params:{
+          page: pagination.pageIndex + 1, // API typically uses 1-based indexing
+          page_size: pagination.pageSize,
+        }
+      })
       .then((res) => {
-        if (res.status === 200) {
-          setData(res.data.products
-          );
+        if (res.data.results.status === "success") {
+          setData(res.data.results.data);
+          setTotalPages(res.data.count)
         } else {
           toast.error("Something went wrong!");
         }
       })
       .catch((error) => {
         console.log(error);
-        toast.error(error?.response?.data?.message || "Something went wrong!");
+        toast.error(error.message);
       });
-  }, []);
+  }, [pagination.pageIndex, pagination.pageSize]);
 
   const tableProps = {
     enableColumnFilterModes: true,
@@ -48,13 +58,19 @@ function SupplierList() {
         id: "data",
         columns: [
           {
-            accessorKey: "supplier_name",
+            accessorKey: "party_name",
             enableClickToCopy: true,
             filterVariant: "autocomplete",
             header: "Supplier Name",
           },
           {
-            accessorKey: "productName",
+            accessorKey: "party_mobileno",
+            enableClickToCopy: true,
+            filterVariant: "autocomplete",
+            header: "Supplier Mobile No.",
+          },
+          {
+            accessorKey: "party_name",
             enableClickToCopy: true,
             filterVariant: "autocomplete",
             header: "Product Name",
@@ -66,16 +82,22 @@ function SupplierList() {
             header: "Product Type",
           },
           {
-            accessorKey: "purchase_price",
+            accessorKey: "quantity",
             enableClickToCopy: true,
             filterVariant: "autocomplete",
-            header: "Purchase Price",
+            header: "Quantity",
           },
           {
-            accessorKey: "final_price",
+            accessorKey: "unit_price",
             enableClickToCopy: true,
             filterVariant: "autocomplete",
-            header: "Final Price",
+            header: "Unit Bought Price",
+          },
+          {
+            accessorKey: "total_amount",
+            enableClickToCopy: true,
+            filterVariant: "autocomplete",
+            header: "Total Amount",
           },
         ],
       },
@@ -100,6 +122,9 @@ function SupplierList() {
          
           <div className="tableDatadiv px-3 py-2">
             <Table
+              pagination={pagination}
+              setPagination={setPagination}
+              rowCount={totalPages}
               {...tableProps}
               columns={columns}
               data={data}

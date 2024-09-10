@@ -116,12 +116,7 @@ const Home = [
     srcs: "/layout/supplier.svg",
     url: "/dashboard/SupplierList",
   },
-  // {
-  //   name: "Purchase Details",
-  //   imgsize: "",
-  //   srcs: "/layout/purchase.svg",
-  //   url: "/dashboard/PurchaseList",
-  // },
+ 
   // {
   //   name: "Customer Details",
   //   imgsize: "",

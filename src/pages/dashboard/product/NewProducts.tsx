@@ -4,7 +4,6 @@ import { Card, CardTitle } from "../../../components/ui/card";
 import { useAppSelector } from "../../../store/hooks";
 import { FieldError, useForm } from "react-hook-form";
 import { BASE_URL_APP } from "../../../utils";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { Input } from "../../../components/ui/input";
 import { Textarea } from "../../../components/ui/text-area";
@@ -128,7 +127,6 @@ function NewProducts() {
         selling_price: Number(data.unit_price),
         // discount: Number(data.discount),
         final_price: Number(data.final_price),
-        filter_type: id,
         measurement_type: mType,
         selling_status: status,
         producttype: productType,
@@ -139,14 +137,14 @@ function NewProducts() {
 
     try {
       const res = await axiosInstance.post(
-        `${BASE_URL_APP}/AddProductDetails_Suppliers`,
+        `/fposupplier/ProductDetailsAddGetDelUpdate`,
         dataa,
       );
       toast("Product Created Successfully");
-      navigate("/dashboard/productList");
+       navigate("/dashboard/productList");
     } catch (error: any) {
       console.log(error);
-      toast.error(error.message);
+      toast.error(error.response.data.error_message || "something went weong");
     } finally {
       setIsLoading(false);
     }

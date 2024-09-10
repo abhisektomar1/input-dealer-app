@@ -18,6 +18,7 @@ import { Button } from "../../../components/ui/button";
 import { Loader2 } from "lucide-react";
 import { BASE_URL_APP } from "../../../utils";
 import axiosInstance from "../../../service/AxiosInstance";
+import { MRT_PaginationState } from "material-react-table";
 
 function InventoryList() {
   const navigate = useNavigate();
@@ -26,9 +27,11 @@ function InventoryList() {
   const [open, setOpen] = React.useState<boolean>(false);
   const [stock, setStock] = useState();
   const [isLoading, setIsLoading] = useState(false);
-
-  console.log(selectedRow);
-  
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [pagination, setPagination] = useState<MRT_PaginationState>({
+    pageIndex: 0,
+    pageSize: 5,
+  });
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -36,13 +39,21 @@ function InventoryList() {
   const handleClose = () => {
     setOpen(false);
   };
+
   useEffect(() => {
     axiosInstance
-      .post(`/ShowInventorySupplier`, {
+      .get(`/fposupplier/InventorySection`, {
+        params:{filter_type: 1,
+          page: pagination.pageIndex + 1, // API typically uses 1-based indexing
+          page_size: pagination.pageSize,
+        }
       })
       .then((res: any) => {
-        if (res.status === 200) {
-          setData(res.data);
+        console.log(res);
+        
+        if (res.data.results.status === "success") {
+          setData(res.data.results.inventory);
+          setTotalPages(res.data.count)
         } else {
           toast.error("Something went wrong!");
         }
@@ -51,8 +62,7 @@ function InventoryList() {
         console.log(error);
         toast.error(error?.response?.data?.error || "Something went wrong!");
       });
-  }, []);
-
+  }, [pagination.pageIndex, pagination.pageSize]);
   const tableProps = {
     enableColumnFilterModes: true,
     enableColumnOrdering: true,
@@ -71,7 +81,7 @@ function InventoryList() {
         id: "data",
         columns: [
           {
-            accessorKey: "product_name",
+            accessorKey: "productName",
             enableClickToCopy: true,
             filterVariant: "autocomplete",
             header: "Product Name",
@@ -118,6 +128,7 @@ function InventoryList() {
     [],
   );
 
+
   const editClick = (e: React.MouseEvent, row: any) => {
     setSelectedRow(row);
     handleClickOpen();
@@ -125,14 +136,13 @@ function InventoryList() {
 
   const onSubmit = async () => {
     setIsLoading(true);
-    console.log(data);
 
     try {
-      await axiosInstance.post(
-        `${BASE_URL_APP}/UpdateInventorybySupplier`,
+       await axiosInstance.put(
+        `/fposupplier/InventorySection`,
         {
           inventory_id: selectedRow?.inventory_id,
-          new_stock: stock,
+          new_stock: Number(stock),
         },
       );
       toast("quantity changed successfully");
@@ -144,6 +154,7 @@ function InventoryList() {
     }
   };
 
+
   return (
     <Layout>
       <Card className="p-4">
@@ -152,6 +163,9 @@ function InventoryList() {
         </div>
           <div className="tableDatadiv px-3 py-2">
             <Table
+            pagination={pagination}
+            setPagination={setPagination}
+            rowCount={totalPages}
               {...tableProps}
               columns={columns}
               data={data}

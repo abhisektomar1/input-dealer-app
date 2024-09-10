@@ -28,22 +28,18 @@ function Dashboard() {
 
   const [filter, setFilter] = useState<string>("Online");
   const [filter2, setFilter2] = useState<string>("Online");
-  const [filter4, setFilter4] = useState<string>("Agricultural Inputs");
+  const [filter4, setFilter4] = useState<number>(1);
   const [filter5, setFilter5] = useState<string>("Online");
-
-  console.log(data, filter5);
 
   useEffect(() => {
     axiosInstance
-      .post(`/Supplier_Inventoryinstock`, {
-        filter_type: filter,
+      .get(`/fposupplier/InventoryInoutStock`, {
+        params:{filter_type: filter,
+        status:"instock"
+      }
       })
       .then((res) => {
-        if (res.status === 200) {
-          setData(res.data);
-        } else {
-          toast.error("Something went wrong!");
-        }
+        setData(res.data);
       })
       .catch((error) => {
         console.log(error);
@@ -53,15 +49,12 @@ function Dashboard() {
 
   useEffect(() => {
     axiosInstance
-      .post(`/Supplier_Inventoryoutofstock`, {
-        filter_type: filter2,
-      })
+      .get(`/fposupplier/InventoryInoutStock`,  {
+        params:{filter_type: filter2,
+        status:"outstock"
+      }})
       .then((res) => {
-        if (res.status === 200) {
           setData2(res.data);
-        } else {
-          toast.error("Something went wrong!");
-        }
       })
       .catch((error) => {
         console.log(error);
@@ -72,15 +65,11 @@ function Dashboard() {
 
   useEffect(() => {
     axiosInstance
-      .post(`/GetTotalSalesBySupplierMonth`, {
-        filter_type: filter4,
-      })
+      .get(`/fposupplier/MonthlySales`, {
+        params:{filter_type: filter4,
+      }})
       .then((res) => {
-        if (res.status === 200) {
           setData4(res.data);
-        } else {
-          toast.error("Something went wrong!");
-        }
       })
       .catch((error) => {
         console.log(error);
@@ -90,18 +79,12 @@ function Dashboard() {
 
   useEffect(() => {
     axiosInstance
-      .post(`/GetTotalSalesBySuppliers`, {
-        filter_type: filter4,
-        sales_status: filter5,
-      })
+      .get(`/fposupplier/TotalSales`,{
+        params:{filter_type: filter4,
+          sales_status:filter5
+      }})
       .then((res) => {
-        console.log(res);
-
-        if (res.status === 200) {
           setData5(res.data);
-        } else {
-          toast.error("Something went wrong!");
-        }
       })
       .catch((error) => {
         console.log(error);
@@ -174,7 +157,7 @@ function Dashboard() {
                     <Tabs defaultValue="account">
                       <TabsList>
                         <TabsTrigger
-                          onClick={() => setFilter4("Agricultural Inputs")}
+                          onClick={() => setFilter4(1)}
                           value="account"
                         >
                           Agricultural Inputs
