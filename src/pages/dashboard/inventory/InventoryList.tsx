@@ -197,6 +197,7 @@ function InventoryList() {
             <TextField
               autoFocus
               required
+               type="number"
               margin="dense"
               id="name"
               label="Stock quantity"

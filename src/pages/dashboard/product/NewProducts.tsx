@@ -274,7 +274,11 @@ function NewProducts() {
                     <div className="w-[350px]">
                       <Input
                         {...register("quantity", {
-                          required: "Product name is required",
+                          required: "Quantity is required",
+                          pattern: {
+                            value: /^\d+(\.\d{1,2})?$/,
+                            message: "Invalid format",
+                          },
                         })}
                         placeholder="Quantity"
                       />
@@ -290,6 +294,10 @@ function NewProducts() {
                       <Input
                         {...register("measurement_unit", {
                           required: "measurement_unit is required",
+                          pattern: {
+                            value: /^\d+(\.\d{1,2})?$/,
+                            message: "Invalid format",
+                          },
                         })}
                         placeholder="Measurement Unit"
                       />
@@ -476,16 +484,23 @@ function NewProducts() {
                     </div>
                   </div>
                   <div className="flex flex-row items-center justify-between gap-4 p-2">
-                    <div className="font-roboto text-left text-base font-medium leading-6 tracking-wide">
-                      Company Gst No.
-                    </div>
-                    <div className="w-[350px]">
-                    <Input
-                      {...register("party_gst")}
-                      placeholder="Gst No."
-                    />
-                    </div>
+                  <div className="font-roboto text-left text-base font-medium leading-6 tracking-wide">
+                    Company Gst No.
                   </div>
+                  <div className="w-[350px]">
+                    <Input
+                      {...register("party_gst", {
+                        pattern: {
+                          value:
+                            /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/,
+                          message: "Invalid GST number format ",
+                        },
+                      })}
+                      placeholder="Gst No."
+                   />
+                    {renderErrorMessage(errors.party_gst)}
+                  </div>
+                </div>
                 </Card>
 
                 <div className="flex flex-row">

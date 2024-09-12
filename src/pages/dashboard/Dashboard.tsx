@@ -111,7 +111,7 @@ function Dashboard() {
     const monthlyTotals: any = {};
 
     // Process each sale
-    apiResponse?.sales?.forEach((sale: any) => {
+    apiResponse?.forEach((sale: any) => {
       // Parse the date
       const date = new Date(sale.sales_date);
       // Get the month name
@@ -281,7 +281,7 @@ function Dashboard() {
                   </div>
                 </CardHeader>
                 <CardContent className="h-[120px] overflow-y-auto">
-                  {data?.InStock?.map((item: any) => (
+                {data?.inventory?.map((item: any) => (
                     <>
                       <div className="flex justify-between">
                         <div>
@@ -303,7 +303,7 @@ function Dashboard() {
                 <CardFooter className="mt-8 flex justify-between  pt-2">
                   <div className="flex items-center space-x-2">
                     <PackageIcon className="h-5 w-5 text-blue-500" />
-                    <p className="text-sm font-medium">{data?.InStockTotal}</p>
+                    <p className="text-sm font-medium">{data?.total_inventory}</p>
                   </div>
                   <p className="text-sm text-muted-foreground">
                     Total Stock In
@@ -335,7 +335,7 @@ function Dashboard() {
                   </div>
                 </CardHeader>
                 <CardContent className="h-[120px] overflow-y-auto">
-                  {data2?.OutofStock?.map((item: any) => (
+                {data2?.inventory?.map((item: any) => (
                     <>
                       <div className="flex justify-between">
                         <div>
@@ -358,7 +358,7 @@ function Dashboard() {
                   <div className="flex items-center space-x-2">
                     <PackageIcon className="h-5 w-5 text-blue-500" />
                     <p className="text-sm font-medium">
-                      {data2?.OutStockTotal}
+                      {data2?.total_inventory}
                     </p>
                   </div>
                   <p className="text-sm text-muted-foreground">
