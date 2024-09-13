@@ -60,10 +60,10 @@ function Login() {
 
           <div className="flex flex-col items-center justify-center p-8">
             <h3 className="font-roboto text-center text-3xl font-medium leading-[56.02px]">
-              Log in
+              Log In
             </h3>
             <p className="text-center text-base font-normal leading-[16.8px] tracking-[0.17px] text-gray-500">
-              Sign up to start your journey with us
+              Sign In to start your journey with us
             </p>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mt-8 flex w-[300px] flex-col items-start justify-start">
@@ -78,6 +78,7 @@ function Login() {
                   minLength: 10,
                   maxLength: 10,
                 })}
+                  placeholder="Enter your mobile No."
                   onKeyDown={(e) => {
                     const isNumeric = /^[0-9]$/.test(e.key);
                     const isBackspaceOrDelete = e.key === 'Backspace' || e.key === 'Delete';
@@ -100,6 +101,7 @@ function Login() {
                   Password
                 </label>
                 <Input
+                  placeholder="Enter your Password"
                   type={showPassword ? "text" : "password"}
                   {...register("password", {
                     required: true,
